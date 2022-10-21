@@ -17,7 +17,6 @@ const NewsList = () => {
     let mounted = true;
     const fetchNews = async () => {
       let data = await getTopNews();
-      console.log(data?.data?.results);
       if (data) setNews(data?.data?.results);
     };
     mounted && fetchNews();

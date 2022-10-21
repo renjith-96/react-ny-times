@@ -8,9 +8,7 @@ function App() {
   return (
     <React.Fragment>
       <Container />
-      <Routes>
-        <Route path="/" element={<NewsList />} />
-      </Routes>
+      
     </React.Fragment>
   );
 }

@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   Button,
   Checkbox,
   Container,
@@ -16,11 +15,21 @@ const SignIn = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div>
-        <Avatar>{/* <LockOutlinedIco /> */}</Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
+      <div style={{ padding: 10 }}>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Grid item>
+            <Avatar />
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+          </Grid>
+        </Grid>
+
         <form noValidate>
           <TextField
             variant="outlined"
@@ -51,18 +60,6 @@ const SignIn = () => {
           <Button type="submit" fullWidth variant="contained" color="primary">
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>
