@@ -1,7 +1,5 @@
 import {
   AppBar,
-  Button,
-  Divider,
   Drawer,
   List,
   ListItem,
@@ -15,10 +13,28 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AppRoutes from "../../routes";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
-
+const menu = [
+  {
+    menu: "Category",
+    path: "/",
+  },
+  {
+    menu: "Search",
+    path: "/search",
+  },
+];
 const Container = () => {
+  let history = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleListItemClick = (event, index, path) => {
+    setSelectedIndex(index);
+    history(path);
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -29,7 +45,6 @@ const Container = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             New York Times
           </Typography>
-          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -46,13 +61,18 @@ const Container = () => {
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {["Categories", "Search"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
+            {menu.map((item, index) => (
+              <ListItem key={item.menu} disablePadding>
+                <ListItemButton
+                  selected={selectedIndex === index}
+                  onClick={(event) =>
+                    handleListItemClick(event, index, item.path)
+                  }
+                >
                   <ListItemIcon>
                     {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary={item.menu} />
                 </ListItemButton>
               </ListItem>
             ))}
@@ -62,7 +82,9 @@ const Container = () => {
       <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
-      > <Toolbar />
+      >
+        {" "}
+        <Toolbar />
         <AppRoutes />
       </Box>
     </Box>
