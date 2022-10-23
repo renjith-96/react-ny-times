@@ -11,8 +11,9 @@ import {
 } from "@mui/material";
 import { getTopNews } from "../../services/newsservice";
 import SelectCategory from "./components/selectcategory";
+import NewsList from "../../components/newslist";
 
-const NewsList = () => {
+const Category = () => {
   const [news, setNews] = useState([]);
   const [category, setCategory] = useState("");
 
@@ -51,7 +52,8 @@ const NewsList = () => {
           <SelectCategory handleCategory={handleCategory} />
         </Grid>{" "}
         <Grid item xs={12}>
-          <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <NewsList news={news} />
+          {/* <List sx={{ width: "100%", bgcolor: "background.paper" }}>
             {news.map((newsItem) => {
               return (
                 <React.Fragment>
@@ -84,10 +86,10 @@ const NewsList = () => {
                 </React.Fragment>
               );
             })}
-          </List>
+          </List> */}
         </Grid>
       </Grid>
     </React.Fragment>
   );
 };
-export default NewsList;
+export default Category;

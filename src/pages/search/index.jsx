@@ -15,9 +15,11 @@ import React from "react";
 
 const Search = () => {
   const [page, setPage] = React.useState(1);
+
   const handleChange = (event, value) => {
     setPage(value);
   };
+
   return (
     <Grid
       container
