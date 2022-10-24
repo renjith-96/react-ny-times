@@ -14,12 +14,12 @@ const NewsList = ({ news }) => {
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       {news.map((newsItem) => {
         return (
-          <React.Fragment>
+          <React.Fragment key={newsItem?.byline}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar
                   alt="Remy Sharp"
-                  src={newsItem?.multimedia[2]?.url ?? ""}
+                  src={newsItem?.multimedia && newsItem?.multimedia[2]?.url}
                 />
               </ListItemAvatar>
               <ListItemText
@@ -47,4 +47,4 @@ const NewsList = ({ news }) => {
     </List>
   );
 };
-export default NewsList;
+export default React.memo(NewsList);

@@ -1,5 +1,7 @@
+import React, { useState } from "react";
 import {
   Avatar,
+  Chip,
   Divider,
   Grid,
   IconButton,
@@ -8,18 +10,27 @@ import {
   ListItemAvatar,
   ListItemText,
   Pagination,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Search = () => {
-  const [page, setPage] = React.useState(1);
-
+  const [page, setPage] = useState(1);
+  const [searchText, setSearchText] = useState("");
+  const [searchList, setSearchList] = useState([]);
   const handleChange = (event, value) => {
     setPage(value);
   };
 
+  const handleSearch = () => {
+    console.log("Searcj", searchText);
+    const last4 = searchList.slice(-4);
+
+    setSearchList(() => [...last4, searchText]);
+    setSearchText("");
+  };
   return (
     <Grid
       container
@@ -35,11 +46,28 @@ const Search = () => {
         alignItems="center"
       >
         <Grid item>
-          <TextField />
+          <TextField
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </Grid>
         <Grid item>
-          <IconButton />
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+            onClick={handleSearch}
+          >
+            <SearchIcon fontSize="large" />
+          </IconButton>
         </Grid>
+      </Grid>
+      <Grid item md={12}>
+        <Stack direction="row" spacing={1}>
+          {searchList.map((item) => (
+            <Chip key={item} label={item} />
+          ))}
+        </Stack>
       </Grid>
       <Grid item md={12}>
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>

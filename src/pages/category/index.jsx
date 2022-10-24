@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Avatar,
-  Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import { getTopNews } from "../../services/newsservice";
@@ -53,40 +47,7 @@ const Category = () => {
         </Grid>{" "}
         <Grid item xs={12}>
           <NewsList news={news} />
-          {/* <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-            {news.map((newsItem) => {
-              return (
-                <React.Fragment>
-                  <ListItem alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar
-                        alt="Remy Sharp"
-                        src={newsItem?.multimedia[2]?.url ?? ""}
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={newsItem.title}
-                      secondary={
-                        <React.Fragment>
-                          <Typography
-                            sx={{ display: "inline" }}
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            {newsItem?.byline}
-                          </Typography>{" "}
-                          &nbsp;&nbsp;
-                          {newsItem?.abstract}
-                        </React.Fragment>
-                      }
-                    />
-                  </ListItem>
-                  <Divider variant="inset" component="li" />
-                </React.Fragment>
-              );
-            })}
-          </List> */}
+         
         </Grid>
       </Grid>
     </React.Fragment>
