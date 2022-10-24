@@ -10,12 +10,14 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import { getArticles } from "../../services/newsservice";
 import Newslist from "../../components/newslist";
+import Loader from "../../components/loader";
 
 const Search = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [searchList, setSearchList] = useState([]);
   const [news, setNews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -32,8 +34,10 @@ const Search = () => {
   useEffect(() => {
     let mounted = true;
     const fetchNews = async (searchText, page) => {
+      setIsLoading(true);
       let data = await getArticles(searchText, page);
       if (data) setNews(data?.data?.response?.docs);
+      setIsLoading(false);
     };
     mounted && searchList.length && fetchNews(searchList.slice(-1), page);
     return () => (mounted = false);
@@ -83,6 +87,7 @@ const Search = () => {
       <Grid container item md={12} justifyContent="center" alignItems="center">
         <Pagination count={10} page={page} onChange={handleChange} />
       </Grid>
+      <Loader open={isLoading} />
     </Grid>
   );
 };
