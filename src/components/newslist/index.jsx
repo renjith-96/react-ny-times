@@ -9,12 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 
-const NewsList = ({ news }) => {
+const NewsList = ({ news, searchPage }) => {
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       {news.map((newsItem) => {
         return (
-          <React.Fragment key={newsItem?.byline}>
+          <React.Fragment
+            key={searchPage ? newsItem?.headline?.main : newsItem.title}
+          >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar
@@ -23,7 +25,7 @@ const NewsList = ({ news }) => {
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={newsItem.title}
+                primary={searchPage ? newsItem?.headline?.main : newsItem.title}
                 secondary={
                   <React.Fragment>
                     <Typography
@@ -32,7 +34,9 @@ const NewsList = ({ news }) => {
                       variant="body2"
                       color="text.primary"
                     >
-                      {newsItem?.byline}
+                      {searchPage
+                        ? newsItem?.byline?.original
+                        : newsItem?.byline}
                     </Typography>{" "}
                     &nbsp;&nbsp;
                     {newsItem?.abstract}

@@ -1,36 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Chip,
-  Divider,
   Grid,
   IconButton,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
   Pagination,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { getArticles } from "../../services/newsservice";
+import Newslist from "../../components/newslist";
 
 const Search = () => {
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   const [searchList, setSearchList] = useState([]);
+  const [news, setNews] = useState([]);
+
   const handleChange = (event, value) => {
     setPage(value);
   };
 
   const handleSearch = () => {
-    console.log("Searcj", searchText);
-    const last4 = searchList.slice(-4);
-
-    setSearchList(() => [...last4, searchText]);
-    setSearchText("");
+    if (searchText) {
+      const last4 = searchList.slice(-4);
+      setSearchList(() => [...last4, searchText]);
+      setSearchText("");
+    }
   };
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchNews = async (searchText, page) => {
+      let data = await getArticles(searchText, page);
+      if (data) setNews(data?.data?.response?.docs);
+    };
+    mounted && searchList.length && fetchNews(searchList.slice(-1), page);
+    return () => (mounted = false);
+  }, [page, searchList]);
+
   return (
     <Grid
       container
@@ -70,73 +78,7 @@ const Search = () => {
         </Stack>
       </Grid>
       <Grid item md={12}>
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Brunch this weekend?"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Ali Connors
-                  </Typography>
-                  {" — I'll be in your neighborhood doing errands this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Summer BBQ"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    to Scott, Alex, Jennifer
-                  </Typography>
-                  {" — Wish I could come, but I'm out of town this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Oui Oui"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Sandra Adams
-                  </Typography>
-                  {" — Do you have Paris recommendations? Have you ever…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-        </List>
+        <Newslist searchPage news={news} />
       </Grid>
       <Grid container item md={12} justifyContent="center" alignItems="center">
         <Pagination count={10} page={page} onChange={handleChange} />
